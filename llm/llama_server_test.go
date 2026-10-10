@@ -951,8 +951,8 @@ func TestLlamaServerStatusErrorMessageIncludesOOMStatus(t *testing.T) {
 	}
 
 	got := runner.statusErrorMessage([]byte(`{"error":{"message":"Compute error."}}`))
-	if !strings.Contains(got, "Compute error") {
-		t.Fatalf("expected original response body, got %q", got)
+	if !strings.HasPrefix(got, "Compute error.\n") {
+		t.Fatalf("expected llama-server's error message, got %q", got)
 	}
 	if !IsOutOfMemoryMessage(got) {
 		t.Fatalf("expected OOM status detail to be detectable, got %q", got)

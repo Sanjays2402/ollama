@@ -1886,7 +1886,10 @@ func llamaServerStreamLimitError(label string, err error) error {
 }
 
 func (s *llamaServerRunner) statusErrorMessage(body []byte) string {
-	errMsg := strings.TrimSpace(string(body))
+	errMsg := extractLlamaServerErrorMessage(body)
+	if errMsg == "" {
+		errMsg = strings.TrimSpace(string(body))
+	}
 	statusMsg := s.lastErrMsg()
 	if statusMsg == "" {
 		return errMsg
